@@ -20,7 +20,7 @@ def example_callback(task):
 class Example(generic.View):
     def get(self, request, *args, **kwargs):
         task = Task(
-            callback_name='django_uwsgi_spooler.views.example_callback',
+            callback_name='django_uwsgi_spooler.example.example_callback',
             env=request.GET,
         )
         task.spool()

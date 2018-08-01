@@ -15,7 +15,7 @@ setup(
     url='https://github.com/yourlabs/django-uwsgi-spooler',
     packages=find_packages('.'),
     include_package_data=True,
-    long_description=read('README'),
+    long_description=read('README.rst'),
     keywords='django uwsgi cache spooler',
     extras_require=dict(
         django=[
