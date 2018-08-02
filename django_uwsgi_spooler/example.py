@@ -6,22 +6,32 @@ from django.views import generic
 from .models import Task
 
 
-def example_callback(task):
-    print(task)
+def example_subcallback(task):
+    task.output += f'Sleeping {task.data} seconds !'
+    time.sleep(task.data)
+    task.output += f'\nSleept {task.data} seconds !'
+    crash
 
-    for i in range(0, 100):
-        task.output += '\nlol'
-        task.progress += 1
-        task.save()
-        print(f'{task.progress}/{task.total}')
-        time.sleep(.1)
+
+def example_callback(task):
+    for i in range(0, task.data):
+        Task(
+            callback='django_uwsgi_spooler.example.example_subcallback',
+            data=i,
+            parent=task,
+        ).spool()
 
 
 class Example(generic.View):
     def get(self, request, *args, **kwargs):
         task = Task(
-            callback_name='django_uwsgi_spooler.example.example_callback',
-            env=request.GET,
-        )
-        task.spool()
-        return http.HttpResponse(f'Task spooled: {task.pk}')
+            callback='django_uwsgi_spooler.example.example_callback',
+            data=request.GET.get('count', 10),
+        ).spool()
+
+        if getattr(task, 'get_absolute_url', None):
+            return http.HttpResponseRedirect(
+                task.get_absolute_url()
+            )
+        else:
+            return http.HttpResponse(f'Task spooled: {task.pk}')

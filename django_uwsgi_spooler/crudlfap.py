@@ -15,12 +15,12 @@ crudlfap.Router(
             ),
             table_fields=[
                 'id',
-                'callback_name',
-                'spool_datetime',
+                'callback',
+                'spooled',
                 'status',
             ],
             search_fields=[
-                'callback_name',
+                'callback',
                 'output',
             ],
         ),
