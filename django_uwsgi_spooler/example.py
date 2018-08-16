@@ -6,19 +6,19 @@ from django.views import generic
 from .models import Task
 
 
-def example_subcallback(task):
-    task.output += f'Sleeping {task.data} seconds !'
-    time.sleep(task.data)
-    task.output += f'\nSleept {task.data} seconds !'
+def example_subcallback(exc):
+    exc.output += f'Sleeping {exc.task.data} seconds !'
+    time.sleep(exc.task.data)
+    exc.output += f'\nSleept {exc.task.data} seconds !'
     crash
 
 
-def example_callback(task):
-    for i in range(0, task.data):
+def example_callback(exc):
+    for i in range(0, exc.task.data):
         Task(
             callback='django_uwsgi_spooler.example.example_subcallback',
             data=i,
-            parent=task,
+            parent=exc.task,
         ).spool()
 
 

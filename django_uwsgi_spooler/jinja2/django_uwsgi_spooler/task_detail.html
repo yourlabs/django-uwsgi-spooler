@@ -1,0 +1,22 @@
+{% extends 'crudlfap/detail.html' %}
+
+{% block content %}
+  <div class="row">
+    <div class="col s12">
+      <ul class="tabs">
+        <li class="tab col s3"><a class="active" href="#task">{{ _('Task') }}</a></li>
+        <li class="tab col s3"><a class="active" href="#children">{{ _('Children') }}</a></li>
+        <li class="tab col s3"><a href="#executions">{{ _('Executions') }}</a></li>
+      </ul>
+    </div>
+    <div id="task" class="col s12">
+      {{ super() }}
+    </div>
+    <div id="children" class="col s12">
+      {{ view.children_list_view.table.as_html(view.request) }}
+    </div>
+    <div id="executions" class="col s12">
+      {{ view.execution_list_view.table.as_html(view.request) }}
+    </div>
+  </div>
+{% endblock %}
